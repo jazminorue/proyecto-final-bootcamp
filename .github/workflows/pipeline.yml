@@ -1,0 +1,29 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar codigo del repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar entorno de .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restaurar dependencias
+      run: dotnet restore src/MyApi/MyApi.csproj
+
+    - name: Compilar aplicacion
+      run: dotnet build src/MyApi/MyApi.csproj --no-restore
+
+    - name: Ejecutar pruebas automaticas
+      run: dotnet test src/MyApi/MyApi.csproj --no-build --verbosity normal

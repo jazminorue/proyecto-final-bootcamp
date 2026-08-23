@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+data:
+  ConnectionStrings__DefaultConnection: "Host=postgres-service;Database=bootcamp_db;Username=postgres_user"
+  Serilog__MinimumLevel: "Information"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: api-secrets
+type: Opaque
+data:
+  # Contraseña en Base64 para producción ("SuperPassword123")
+  ConnectionStrings__DbPassword: U3VwZXJQYXNzd29yZDEyMw==
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: net-api
+  template:
+    metadata:
+      labels:
+        app: net-api
+    spec:
+      containers:
+      - name: api
+        image: tu-usuario-docker/net-api:latest
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: api-config
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: api-secrets
+              key: ConnectionStrings__DbPassword
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: net-api-service
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 30080
+  selector:
+    app: net-api
