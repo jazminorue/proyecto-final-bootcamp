@@ -1,0 +1,9 @@
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\MyApi.csproj.AssemblyReference.cache
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\MyApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\MyApi.AssemblyInfoInputs.cache
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\MyApi.AssemblyInfo.cs
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\MyApi.csproj.CoreCompileInputs.cache
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\MyApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\MyApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\jazmi\OneDrive\Documentos\GitHub\proyecto-final-bootcamp\src\MyApi\obj\Debug\net10.0\MyApi.sourcelink.json

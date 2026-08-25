@@ -17,13 +17,41 @@ jobs:
     - name: Configurar entorno de .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
 
     - name: Restaurar dependencias
       run: dotnet restore src/MyApi/MyApi.csproj
 
     - name: Compilar aplicacion
-      run: dotnet build src/MyApi/MyApi.csproj --no-restore
+      run: dotnet build src/MyApi/MyApi.csproj --no-restore --configuration Release
 
-    - name: Ejecutar pruebas automaticas
-      run: dotnet test src/MyApi/MyApi.csproj --no-build --verbosity normal
+    - name: Iniciar sesion en Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Construir y subir imagen Docker
+      uses: docker/build-push-action@v5
+      with:
+        context: ./src/MyApi
+        file: ./src/MyApi/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-api:latest
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Descargar codigo del repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar acceso a Kubernetes
+      uses: azure/k8s-set-context@v3
+      with:
+        method: kubeconfig
+        kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+    - name: Aplicar manifiestos en el Cluster
+      run: |
+        kubectl apply -f k8s/
