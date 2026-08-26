@@ -38,20 +38,3 @@ jobs:
         file: ./src/MyApi/Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-api:latest
-
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    steps:
-    - name: Descargar codigo del repositorio
-      uses: actions/checkout@v4
-
-    - name: Configurar acceso a Kubernetes
-      uses: azure/k8s-set-context@v3
-      with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}
-
-    - name: Aplicar manifiestos en el Cluster
-      run: |
-        kubectl apply -f k8s/
