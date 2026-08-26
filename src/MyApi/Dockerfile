@@ -1,4 +1,4 @@
-# Etapa 1: Compilación de la API
+# Etapa 1: Compilacion de la API
 FROM ://microsoft.com AS build
 WORKDIR /app
 
@@ -6,11 +6,11 @@ WORKDIR /app
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copiar el resto del código y compilar la aplicación
+# Copiar el resto del codigo y compilar la aplicacion
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Etapa 2: Entorno de ejecución optimizado
+# Etapa 2: Entorno de ejecucion optimizado
 FROM ://microsoft.com AS runtime
 WORKDIR /app
 COPY --from=build /app/out .
