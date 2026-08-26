@@ -1,5 +1,5 @@
 # Etapa 1: Compilación de la API
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /app
 
@@ -11,14 +11,14 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Release -o /app/out
 
-# Etapa 2: Entorno de ejecución optimizado
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+# Etapa 2: Entorno de ejecución
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 
 WORKDIR /app
 
 COPY --from=build /app/out .
 
-# Configurar variables de entorno por defecto
+# Configurar variables de entorno
 ENV ASPNETCORE_URLS=http://+:8080
 
 EXPOSE 8080
