@@ -1,4 +1,4 @@
-# Estapa 1: Compilación de la API
+# Etapa 1: Compilación de la API
 FROM ://microsoft.com AS build
 WORKDIR /app
 
