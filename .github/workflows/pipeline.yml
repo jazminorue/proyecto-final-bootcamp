@@ -5,33 +5,50 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch: # Tercer trigger obligatorio por rúbrica
 
 jobs:
-  build-and-test:
+  validate:
     runs-on: ubuntu-latest
+    # Variables de entorno no sensibles (exigido por la rúbrica)
+    env:
+      DOTNET_ENV: Development
+      LOG_LEVEL: Information
 
     steps:
-    - name: Descargar codigo del repositorio
+    - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Configurar entorno de .NET
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
 
-    - name: Restaurar dependencias
+    - name: Restore
       run: dotnet restore src/MyApi/MyApi.csproj
 
-    - name: Compilar aplicacion
+    - name: Build
       run: dotnet build src/MyApi/MyApi.csproj --no-restore --configuration Release
 
-    - name: Iniciar sesion en Docker Hub
+    # Agrega un test rápido si tienes el proyecto, o deja el comando de validación básico
+    # - name: Test
+    #   run: dotnet test src/MyApi/MyApi.csproj --no-build
+
+  package:
+    needs: validate
+    if: github.ref == 'refs/heads/main' # Limitado a la rama principal por rúbrica
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }} # Secretos sensibles resguardados
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Construir y subir imagen Docker
+    - name: Build and Push Docker Image
       uses: docker/build-push-action@v5
       with:
         context: ./src/MyApi

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: my-api-chart
+description: Helm chart para la API .NET y Postgres del Bootcamp
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

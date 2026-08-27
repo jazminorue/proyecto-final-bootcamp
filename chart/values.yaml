@@ -1,0 +1,18 @@
+replicaCount: 2
+
+image:
+  repository: jazminorue/my-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+logging:
+  level: "Information"
+  seqUrl: "http://seq-service:5341"
